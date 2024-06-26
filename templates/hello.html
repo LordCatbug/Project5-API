@@ -3,7 +3,6 @@
 <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 
 <head>
-  <title>Hello Azure - Python Quickstart</title>
   <link rel="stylesheet" href="{{ url_for('static', path='bootstrap/css/bootstrap.min.css') }}">
   <link rel="shortcut icon" href="{{ url_for('static', path='favicon.ico') }}">
 </head>
@@ -12,12 +11,10 @@
 <body>
   <main>
     <div class="px-4 py-3 my-2 text-center">
-      <img class="d-block mx-auto mb-4" src="{{ url_for('static', path='images/azure-icon.svg') }}" alt="Azure Logo"
+      <img class="d-block mx-auto mb-4" src="{{ url_for('static', path='images/stackOverflow-icon.png') }}" alt="stackOverflow Logo"
         width="192" height="192" />
-      <h1 class="display-6 fw-bold">Hello {{name}}</h1>
-      <p class="fs-5">
-        It is nice to meet you!
-      </p>
+      <h1 class="display-6 fw-bold">The tags are : </h1>
+      <p class="fs-5">{{ title }}</p>
       <a href="{{ url_for('index') }}" class="btn btn-primary btn-lg px-4 gap-3">Back home</a>
     </div>
   </main>
