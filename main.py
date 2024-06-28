@@ -73,7 +73,7 @@ async def hello(request: Request, title: str = Query(...)):
     return templates.TemplateResponse('hello.html', {"request": request, 'title': title})
 
 # Définir la fonction de prédiction pour un titre (single label)
-def get_title(title: str, threshold: float = 0.2):
+def get_tags_api(title: str, threshold: float = 0.2):
     predictions = predict([title], threshold)
     return predictions[0]
 
@@ -83,13 +83,13 @@ class TitleRequest(BaseModel):
     threshold: float = 0.2  # Ajouter le seuil par défaut
 
 # Définir le point de terminaison pour les prédictions de titre
-@app.post("/get_title")
-async def get_title_endpoint(request: TitleRequest):
-    print("CALLING ===================================> get_title")
+@app.post("/get_tags_api")
+async def get_tags_api_endpoint(request: TitleRequest):
+    print("CALLING ===================================> get_tags_api")
     print(request.title)
     title = request.title
     threshold = request.threshold
-    tags = get_title(title, threshold)
+    tags = get_tags_api(title, threshold)
     return {"tags": tags}
 
 @app.get("/get_tags", response_class=HTMLResponse)
