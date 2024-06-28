@@ -30,7 +30,7 @@
       event.preventDefault();
       const questionTitle = document.getElementById('question').value;
       const formattedTitle = questionTitle.trim().replace(/\s+/g, '-').toLowerCase();
-      window.location.href = `/hello?title=${encodeURIComponent(questionTitle)}`;
+      window.location.href = `/get_tags?title=${encodeURIComponent(questionTitle)}`;
     });
   </script>
 </body>
