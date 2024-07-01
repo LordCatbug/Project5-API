@@ -6,7 +6,7 @@ from fastapi.responses import JSONResponse
 import uvicorn
 import torch
 from transformers import BertTokenizer, BertForSequenceClassification
-from pydantic import BaseModel
+from pydantic import BaseModel, Field, validator
 
 import nltk
 from nltk.corpus import stopwords
@@ -24,7 +24,7 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
 # Charger le modèle et le tokenizer depuis les fichiers
-model_path = 'E:/Document/WorkSpace/Formation/Project5-API/my_model_trans_1/checkpoint-13'
+model_path = 'E:/Document/WorkSpace/Formation/Project5-API/my_model_trans_1/checkpoint-5470'
 
 # Charger le modèle
 model = BertForSequenceClassification.from_pretrained(model_path)
@@ -73,14 +73,26 @@ async def hello(request: Request, title: str = Query(...)):
     return templates.TemplateResponse('hello.html', {"request": request, 'title': title})
 
 # Définir la fonction de prédiction pour un titre (single label)
-def get_tags_api(title: str, threshold: float = 0.2):
+def get_tags_api(title: str, threshold: float = 0.4):
     predictions = predict([title], threshold)
     return predictions[0]
 
 # Définir un modèle de données pour les requêtes
 class TitleRequest(BaseModel):
     title: str
-    threshold: float = 0.2  # Ajouter le seuil par défaut
+    threshold: float = Field(default=0.4, ge=0, le=1)
+
+    @validator('title')
+    def validate_title(cls, v):
+        if not v or v.strip() == "":
+            raise ValueError('Le titre ne peut pas être vide.')
+        return v
+
+    @validator('threshold')
+    def validate_threshold(cls, v):
+        if not (0 <= v <= 1):
+            raise ValueError('Le seuil doit être compris entre 0 et 1.')
+        return v
 
 # Définir le point de terminaison pour les prédictions de titre
 @app.post("/get_tags_api")
