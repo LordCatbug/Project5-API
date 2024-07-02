@@ -1,3 +1,9 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:d0a9d3cbb0bb10e886770dd541fdfdd325298c22f3dc2590f718e9293c8a714e
-size 89
+fastapi
+uvicorn
+gunicorn
+jinja2
+python-multipart
+pytest
+nltk
+transformers
+torch
