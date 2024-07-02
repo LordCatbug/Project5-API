@@ -34,6 +34,7 @@ To try the application on your local machine:
 
 http://127.0.0.1:8000/
 
-## Next Steps
 
-To learn more about FastAPI, see [FastAPI](https://fastapi.tiangolo.com/).
+### Run tests
+
+`pytest test_main.py`

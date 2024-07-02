@@ -24,7 +24,7 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
 # Charger le modèle et le tokenizer depuis les fichiers
-model_path = 'E:/Document/WorkSpace/Formation/Project5-API/my_model_trans_1/checkpoint-5470'
+model_path = './model'
 
 # Charger le modèle
 model = BertForSequenceClassification.from_pretrained(model_path)
