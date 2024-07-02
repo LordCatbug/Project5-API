@@ -20,6 +20,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          lfs: true  # This ensures that Git LFS files are fetched
 
       - name: Set up Python version
         uses: actions/setup-python@v5
