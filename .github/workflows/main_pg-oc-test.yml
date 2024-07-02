@@ -6,7 +6,7 @@ name: Build and deploy Python app to Azure Web App - pg-oc-test
 
 env:
   AZURE_WEBAPP_NAME: OC_SO_TAGIFY   # set this to your application's name
-  PYTHON_VERSION: '3.1'               # set this to the Python version to use
+  PYTHON_VERSION: '3.10.14'               # set this to the Python version to use
 
 on:
   push:
