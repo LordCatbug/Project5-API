@@ -1,5 +1,3 @@
-fastapi
-uvicorn
-gunicorn
-jinja2
-python-multipart
+version https://git-lfs.github.com/spec/v1
+oid sha256:53b3406e580ae4ce48f6c17954cdde44aadc438edab5583d4c80acb0fcf663d4
+size 80
