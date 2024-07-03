@@ -7,7 +7,7 @@ name: Build and deploy Python app to Azure Web App - pg-oc-test
 env:
   AZURE_WEBAPP_NAME: pg-oc-test   # set this to your application's name
   PYTHON_VERSION: '3.10.14'               # set this to the Python version to use
-  NODE_VERSION: '14.x'            # specify the Node.js version
+  NODE_VERSION: '20.x'            # specify the Node.js version
 
 on:
   push:
