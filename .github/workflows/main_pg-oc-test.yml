@@ -52,6 +52,16 @@ jobs:
           pip install -r requirements.txt
           pip list  # Afficher la liste des paquets installés pour vérification
 
+      - name: Install Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '10.7'  # Remplacez par la version de Node.js que vous utilisez
+  
+      - name: Install Node.js dependencies
+        run: |
+          npm install  # Assurez-vous d'être dans le répertoire approprié s'il y a un sous-dossier pour Node.js
+          npm run build  # Exemple d'une commande de build pour Node.js (remplacez par votre propre commande)
+  
       - name: Run tests
         run: |
           source venv/bin/activate
