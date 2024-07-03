@@ -48,7 +48,9 @@ jobs:
       - name: Install dependencies
         run: | 
           source venv/bin/activate
+          pip install --upgrade pip
           pip install -r requirements.txt
+          pip list  # Afficher la liste des paquets installés pour vérification
 
       - name: Run tests
         run: |
