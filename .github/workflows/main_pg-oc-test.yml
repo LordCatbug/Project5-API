@@ -2,7 +2,7 @@ name: Build and deploy Python app
 
 env:
   AZURE_WEBAPP_NAME: pg-oc-test   # Nom de l'application Azure
-  PYTHON_VERSION: '3.10.8'       # Version de Python à utiliser
+  PYTHON_VERSION: '3.9'       # Version de Python à utiliser
   WORKING_DIRECTORY: '.'          # Répertoire de travail
   STARTUP_COMMAND: 'uvicorn main:app --reload'  # Commande de démarrage
 
