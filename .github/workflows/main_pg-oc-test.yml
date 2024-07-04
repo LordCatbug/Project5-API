@@ -61,14 +61,6 @@ jobs:
           source venv/bin/activate
           pytest test_main.py
 
-      - name: Upload de l'artefact pour le déploiement
-        uses: actions/upload-artifact@v2
-        with:
-          name: python-app
-          path: |
-            .
-            !venv/
-
   deploy:
     runs-on: ubuntu-latest
     needs: build
@@ -77,12 +69,6 @@ jobs:
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
-      - name: Téléchargement de l'artefact depuis le job de build
-        uses: actions/download-artifact@v2
-        with:
-          name: python-app
-          path: .
-
       - name: Déploiement sur Azure Web App
         uses: azure/webapps-deploy@v2
         with:
