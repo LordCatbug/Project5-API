@@ -8,6 +8,8 @@ env:
   AZURE_WEBAPP_NAME: pg-oc-test   # set this to your application's name
   PYTHON_VERSION: '3.10.14'               # set this to the Python version to use
   NODE_VERSION: '20.x'            # specify the Node.js version
+  WORKING_DIRECTORY: '.'        # set this to the path to your path of working directory inside github repository, defaults to the repository root
+  STARTUP_COMMAND: 'uvicorn main:app --reload'           # set this to the startup command required to start the gunicorn server. default it is empty
 
 on:
   push:
@@ -85,10 +87,13 @@ jobs:
           name: python-app
           path: . 
 
+      - name: Extract artifact
+        run: unzip app.zip
+  
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v1
         id: deploy-to-webapp
         with:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_FBC3A1B36C834BEBB13B669506474F76 }}
-          force: true 
+          package: ${{ env.WORKING_DIRECTORY }}
+          startup-command: ${{ env.STARTUP_COMMAND }}
