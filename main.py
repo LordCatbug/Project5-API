@@ -29,6 +29,12 @@ import os
 # Charger le modèle
 print(os.listdir(model_path)) 
 model = BertForSequenceClassification.from_pretrained(model_path)
+tokenizer_config_file = os.path.join(model_path, "tokenizer_config.json")
+with open(tokenizer_config_file, "r") as f:
+    tokenizer_config_data = f.read()
+    print("Content of tokenizer_config.json:")
+    print(tokenizer_config_data)
+
 tokenizer = BertTokenizer.from_pretrained(model_path)
 print(tokenizer)  # Vérifiez que le tokenizer est correctement initialisé
 
