@@ -69,9 +69,19 @@ jobs:
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
+      
+      - uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
       - name: Déploiement sur Azure Web App
         uses: azure/webapps-deploy@v2
         with:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
           package: .
           startup-command: ${{ env.STARTUP_COMMAND }}
+
+      # Azure logout 
+      - name: logout
+        run: |
+          az logout
