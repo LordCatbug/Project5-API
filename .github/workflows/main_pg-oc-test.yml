@@ -20,6 +20,8 @@ jobs:
     steps:
       # Checkout the repo
       - uses: actions/checkout@v3
+        with:
+          lfs: true  # Active le support de Git LFS
 
       # Setup Python
       - name: Setup Python
