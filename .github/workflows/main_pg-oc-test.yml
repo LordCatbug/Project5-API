@@ -1,15 +1,11 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# More GitHub Actions for Azure: https://github.com/Azure/actions
-# More info on Python, GitHub Actions, and Azure App Service: https://aka.ms/python-webapps-actions
-
 name: Build and deploy Python app to Azure Web App - pg-oc-test
 
 env:
-  AZURE_WEBAPP_NAME: pg-oc-test   # set this to your application's name
-  PYTHON_VERSION: '3.10.14'               # set this to the Python version to use
-  NODE_VERSION: '20.x'            # specify the Node.js version
-  WORKING_DIRECTORY: '.'        # set this to the path to your path of working directory inside github repository, defaults to the repository root
-  STARTUP_COMMAND: 'uvicorn main:app --reload'           # set this to the startup command required to start the gunicorn server. default it is empty
+  AZURE_WEBAPP_NAME: pg-oc-test   # Nom de votre application sur Azure Web App
+  PYTHON_VERSION: '3.10.14'       # Version de Python à utiliser
+  NODE_VERSION: '20.x'            # Version de Node.js à utiliser (si nécessaire)
+  WORKING_DIRECTORY: '.'          # Répertoire de travail à partir duquel déployer (par défaut, le répertoire racine)
+  STARTUP_COMMAND: 'uvicorn main:app --reload'  # Commande de démarrage de votre application
 
 on:
   push:
@@ -22,51 +18,51 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout du repository
+        uses: actions/checkout@v4
         with:
-          lfs: true  # This ensures that Git LFS files are fetched
+          lfs: true  # Assure le téléchargement des fichiers LFS
 
-      - name: Set up Node.js
+      - name: Setup de Node.js
         uses: actions/setup-node@v3
         with:
           node-version: ${{ env.NODE_VERSION }}
 
-      - name: Set up Python version
-        uses: actions/setup-python@v5
+      - name: Setup de la version Python
+        uses: actions/setup-python@v2
         with:
           python-version: ${{ env.PYTHON_VERSION }}
 
-      - name: Create and start virtual environment
+      - name: Création et activation de l'environnement virtuel
         run: |
           python -m venv venv
           source venv/bin/activate
 
-      - name: Upgrade pip
+      - name: Mise à jour de pip
         run: |
           python -m pip install --upgrade pip
 
-      - name: Set up dependency caching for faster installs
-        uses: actions/cache@v3
+      - name: Configuration du cache des dépendances
+        uses: actions/cache@v2
         with:
           path: ~/.cache/pip
           key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
           restore-keys: |
             ${{ runner.os }}-pip-
-  
-      - name: Install dependencies
-        run: | 
-          source venv/bin/activate
-          pip install --upgrade pip
-          pip install -r requirements.txt
-          pip list  # Afficher la liste des paquets installés pour vérification
 
-      - name: Run tests
+      - name: Installation des dépendances
+        run: |
+          source venv/bin/activate
+          pip install -r requirements.txt
+          pip list  # Affiche la liste des paquets installés pour vérification
+
+      - name: Exécution des tests
         run: |
           source venv/bin/activate
           pytest test_main.py
 
-      - name: Upload artifact for deployment jobs
-        uses: actions/upload-artifact@v4
+      - name: Upload de l'artefact pour le déploiement
+        uses: actions/upload-artifact@v2
         with:
           name: python-app
           path: |
@@ -77,23 +73,19 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     environment:
-      name: 'Production'
+      name: Production  # Vérifiez que cette ligne est correctement écrite sans guillemets supplémentaires
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
-      - name: Download artifact from build job
-        uses: actions/download-artifact@v4
+      - name: Téléchargement de l'artefact depuis le job de build
+        uses: actions/download-artifact@v2
         with:
           name: python-app
-          path: . 
+          path: .
 
-      - name: Extract artifact
-        run: unzip app.zip
-  
-      - name: 'Deploy to Azure Web App'
-        uses: azure/webapps-deploy@v1
-        id: deploy-to-webapp
+      - name: Déploiement sur Azure Web App
+        uses: azure/webapps-deploy@v2
         with:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
-          package: ${{ env.WORKING_DIRECTORY }}
+          package: .
           startup-command: ${{ env.STARTUP_COMMAND }}
