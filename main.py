@@ -25,10 +25,12 @@ templates = Jinja2Templates(directory="templates")
 
 # Charger le modèle et le tokenizer depuis les fichiers
 model_path = './model'
-
+import os
 # Charger le modèle
+print(os.listdir(model_path)) 
 model = BertForSequenceClassification.from_pretrained(model_path)
 tokenizer = BertTokenizer.from_pretrained(model_path)
+print(tokenizer)  # Vérifiez que le tokenizer est correctement initialisé
 
 id2label = model.config.id2label
 
